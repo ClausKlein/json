@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 3.3.0 FATAL_ERROR)
 
+project(json-example LANGUAGES CXX)
+
+if(NOT TARGET taocpp::json)
+  find_package(taocpp-json CONFIG REQUIRED)
+  find_package(pegtl CONFIG REQUIRED)   # FIXME: should not be needed! CK
+endif()
+
 set(examplesources
   cbor_to_jaxn.cpp
   cbor_to_json.cpp
@@ -58,10 +65,10 @@ foreach(examplesourcefile ${examplesources})
   else()
     target_compile_options(${exename} PRIVATE -pedantic -Wall -Wextra -Wshadow -Werror)
   endif()
-endforeach(examplesourcefile)
+endforeach()
 
 if(glob_example_sources)
   foreach(ignored_source_file ${glob_example_sources})
     message(SEND_ERROR "File ${ignored_source_file} in src/example/json is ignored")
-  endforeach(ignored_source_file)
+  endforeach()
 endif()
